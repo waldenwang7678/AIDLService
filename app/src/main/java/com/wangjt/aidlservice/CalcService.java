@@ -10,6 +10,7 @@ import com.walden.aidl.MyAidl;
 
 /**
  * Created by wangjt on 2017/8/9.
+ * 通过 aidl 完成简单的计算功能 (参考CalcServiceNoAidl 不用 AIDL 完成此功能)
  */
 
 public class CalcService extends Service {

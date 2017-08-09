@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 /**
  * Created by wangjt on 2017/8/9.
+ * 使用 binder 完成简单的计算功能(参考 CalcSercice 使用AIDL 完成此功能)
  */
 
 public class CalcServiceNoAidl extends Service {
