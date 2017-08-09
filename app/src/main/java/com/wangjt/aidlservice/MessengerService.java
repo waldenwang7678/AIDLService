@@ -26,20 +26,26 @@ public class MessengerService extends Service {
 
     private Messenger messenger = new Messenger(new Handler() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            SystemClock.sleep(3000);
-            Message message = Message.obtain();
-            Bundle bundle = new Bundle();
-            bundle.putString("address", "https://www.baidu.com");
-            message.setData(bundle);
+        public void handleMessage(Message msgFromClient) {
+            Message msgToClient = Message.obtain(msgFromClient);//将客户端发来的消息复制一份
+            switch (msgFromClient.what) {
+                case 200:
+                    SystemClock.sleep(3000);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("address", "https://www.baidu.com");
 
-            Messenger messenger = msg.replyTo;  //
-            try {
-                messenger.send(message);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+                    msgToClient.setData(bundle);
+                    msgToClient.what = 200;
+                    msgToClient.arg2 = msgFromClient.arg1 + msgFromClient.arg2;
+                    Messenger messenger = msgFromClient.replyTo;  // 客户端信使 , 发消息给客户端
+                    try {
+                        messenger.send(msgToClient);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
+            super.handleMessage(msgToClient);
         }
     });
 }
